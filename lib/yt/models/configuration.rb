@@ -42,6 +42,9 @@ module Yt
       # @see https://console.developers.google.com Google Developers Console
       attr_accessor :api_key
 
+      # @return [String] Allows to force the HTTP Origin header.
+      attr_accessor :origin_host
+
       # @return [String] the level of output to print for debugging purposes.
       attr_accessor :log_level
 

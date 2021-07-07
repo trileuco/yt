@@ -58,6 +58,7 @@ module Yt
       @params = options.fetch :params, {}
       # Note: This is to be invoked by auth-only YouTube APIs.
       @params[:key] = options[:api_key] if options[:api_key]
+
       # Note: This is to be invoked by all YouTube API except Annotations,
       # Analyitics and Uploads
       camelize_keys! @params if options.fetch(:camelize_params, true)
@@ -65,6 +66,7 @@ module Yt
       @body = options[:body]
       @headers = options.fetch :headers, {}
       @auth = options[:auth]
+      @origin_host = Yt.configuration.origin_host if Yt.configuration.origin_host
     end
 
     # Sends the request and returns the response.
@@ -149,6 +151,7 @@ module Yt
       end
       @headers['User-Agent'] = 'Yt::Request (gzip)'
       @headers['Authorization'] = "Bearer #{@auth.access_token}" if @auth
+      @headers['Origin'] = @origin_host if @origin_host.present?
       @headers.each{|name, value| request.add_field name, value}
     end
 
